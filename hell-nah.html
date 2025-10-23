@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PharmaHub - Obat Online Terpercaya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: #ef4444;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #10b981;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 1000;
+      }
+      .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-b from-blue-50 to-blue-100 text-gray-800">
+    <!-- Navbar -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+      <div
+        class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center"
+      >
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center space-x-2">
+          <img src="pharmahub-logo.jpeg" alt="PharmaHub" class="h-10 w-auto" />
+        </a>
+
+        <!-- Menu -->
+        <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-700">
+          <a href="index.html" class="hover:text-blue-600 transition"
+            >Beranda</a
+          >
+          <a href="#produk" class="hover:text-blue-600 transition">Produk</a>
+          <a
+            href="keranjang.html"
+            class="hover:text-blue-600 transition relative"
+          >
+            Keranjang
+            <span id="cart-count" class="cart-count hidden">0</span>
+          </a>
+          <a href="apotek.html" class="hover:text-blue-600 transition"
+            >Apotek</a
+          >
+          <a href="riwayat.html" class="hover:text-blue-600 transition"
+            >Riwayat</a
+          >
+        </nav>
+
+        <!-- Tombol Login & Keranjang -->
+        <div class="flex items-center space-x-4">
+          <a href="keranjang.html" class="md:hidden relative">
+            <i class="fas fa-shopping-cart text-gray-700 text-xl"></i>
+            <span id="cart-count-mobile" class="cart-count hidden">0</span>
+          </a>
+          <a
+            href="login.html"
+            class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition hidden md:block"
+            >Login</a
+          >
+
+          <!-- Mobile Menu Button -->
+          <button id="menu-btn" class="md:hidden flex flex-col space-y-1">
+            <span class="w-6 h-0.5 bg-gray-700"></span>
+            <span class="w-6 h-0.5 bg-gray-700"></span>
+            <span class="w-6 h-0.5 bg-gray-700"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="menu" class="hidden md:hidden bg-white border-t border-gray-200">
+        <nav class="flex flex-col space-y-2 px-6 py-4">
+          <a href="index.html" class="hover:text-blue-600 py-2">Beranda</a>
+          <a href="#produk" class="hover:text-blue-600 py-2">Produk</a>
+          <a href="keranjang.html" class="hover:text-blue-600 py-2"
+            >Keranjang</a
+          >
+          <a href="apotek.html" class="hover:text-blue-600 py-2">Apotek</a>
+          <a href="riwayat.html" class="hover:text-blue-600 py-2">Riwayat</a>
+          <a
+            href="login.html"
+            class="bg-blue-600 text-white px-4 py-2 rounded-md text-center hover:bg-blue-700 mt-2"
+            >Login</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section
+      class="container mx-auto px-4 sm:px-6 py-12 md:py-16 flex flex-col-reverse md:flex-row items-center"
+    >
+      <!-- Text -->
+      <div
+        class="w-full md:w-1/2 space-y-6 text-center md:text-left mt-8 md:mt-0"
+      >
+        <h1
+          class="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-700 leading-tight"
+        >
+          One Stop <span class="text-blue-500">Solution</span><br />for Your
+          Medicine Needs
+        </h1>
+        <p class="text-gray-600 text-base sm:text-lg">
+          Kami tersedia 24/7. Pesan obat kapan saja dan nikmati layanan cepat
+          dan terpercaya.
+        </p>
+        <div
+          class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
+        >
+          <a
+            href="#produk"
+            class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition text-center"
+            >Mulai Belanja Sekarang</a
+          >
+          <a
+            href="#produk"
+            class="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition text-center"
+            >Lihat Daftar Obat</a
+          >
+        </div>
+      </div>
+
+      <!-- Ilustrasi -->
+      <div class="w-full md:w-1/2 flex justify-center mb-10 md:mb-0">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2966/2966482.png"
+          alt="Pharmacy Illustration"
+          class="w-64 sm:w-72 md:w-80"
+        />
+      </div>
+    </section>
+
+    <!-- Fitur Unggulan -->
+    <section class="bg-white py-12">
+      <div class="container mx-auto px-4 sm:px-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center">
+          Mengapa Memilih PharmaHub?
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="text-center p-6 rounded-lg bg-blue-50">
+            <div
+              class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-shipping-fast text-blue-600 text-xl"></i>
+            </div>
+            <h3 class="font-semibold text-lg mb-2">Pengiriman Cepat</h3>
+            <p class="text-gray-600">
+              Pesanan Anda akan sampai dalam waktu 1-2 jam
+            </p>
+          </div>
+          <div class="text-center p-6 rounded-lg bg-blue-50">
+            <div
+              class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-user-md text-blue-600 text-xl"></i>
+            </div>
+            <h3 class="font-semibold text-lg mb-2">Konsultasi Apoteker</h3>
+            <p class="text-gray-600">
+              Konsultasi gratis dengan apoteker berpengalaman
+            </p>
+          </div>
+          <div class="text-center p-6 rounded-lg bg-blue-50">
+            <div
+              class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-shield-alt text-blue-600 text-xl"></i>
+            </div>
+            <h3 class="font-semibold text-lg mb-2">Obat Terjamin</h3>
+            <p class="text-gray-600">Semua obat asli dengan izin BPOM</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Produk Obat -->
+    <section id="produk" class="container mx-auto px-4 sm:px-6 py-12">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">
+        Daftar Obat yang Tersedia
+      </h2>
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+      >
+        <!-- Obat 1: Paracetamol -->
+        <div
+          class="bg-white rounded-xl shadow hover:shadow-lg transition p-5 text-center flex flex-col"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2966/2966388.png"
+            alt="Paracetamol"
+            class="w-20 mx-auto mb-4"
+          />
+          <h3 class="font-semibold text-gray-800">Paracetamol 500mg</h3>
+          <p class="text-gray-600 text-sm mt-1">
+            Untuk menurunkan demam dan meredakan sakit kepala atau nyeri ringan.
+          </p>
+          <div class="mt-auto">
+            <p class="text-blue-600 font-bold mt-4">Rp 12.000</p>
+            <div class="flex items-center justify-center mt-3 space-x-2">
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="decrease"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="quantity-display w-10 text-center">1</span>
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="increase"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <button
+              class="add-to-cart-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full"
+              data-id="1"
+              data-name="Paracetamol 500mg"
+              data-price="12000"
+            >
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+
+        <!-- Obat 2: Ibuprofen -->
+        <div
+          class="bg-white rounded-xl shadow hover:shadow-lg transition p-5 text-center flex flex-col"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2966/2966388.png"
+            alt="Ibuprofen"
+            class="w-20 mx-auto mb-4"
+          />
+          <h3 class="font-semibold text-gray-800">Ibuprofen 400mg</h3>
+          <p class="text-gray-600 text-sm mt-1">
+            Obat antiinflamasi non-steroid untuk nyeri otot, sendi, atau sakit
+            gigi.
+          </p>
+          <div class="mt-auto">
+            <p class="text-blue-600 font-bold mt-4">Rp 15.000</p>
+            <div class="flex items-center justify-center mt-3 space-x-2">
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="decrease"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="quantity-display w-10 text-center">1</span>
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="increase"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <button
+              class="add-to-cart-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full"
+              data-id="2"
+              data-name="Ibuprofen 400mg"
+              data-price="15000"
+            >
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+
+        <!-- Obat 3: Antasida -->
+        <div
+          class="bg-white rounded-xl shadow hover:shadow-lg transition p-5 text-center flex flex-col"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2966/2966388.png"
+            alt="Antasida"
+            class="w-20 mx-auto mb-4"
+          />
+          <h3 class="font-semibold text-gray-800">Promag</h3>
+          <p class="text-gray-600 text-sm mt-1">
+            Meredakan sakit maag, nyeri ulu hati, dan gangguan asam lambung.
+          </p>
+          <div class="mt-auto">
+            <p class="text-blue-600 font-bold mt-4">Rp 8.000</p>
+            <div class="flex items-center justify-center mt-3 space-x-2">
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="decrease"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="quantity-display w-10 text-center">1</span>
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="increase"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <button
+              class="add-to-cart-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full"
+              data-id="3"
+              data-name="Promag"
+              data-price="8000"
+            >
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+
+        <!-- Obat 4: Loperamide -->
+        <div
+          class="bg-white rounded-xl shadow hover:shadow-lg transition p-5 text-center flex flex-col"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2966/2966388.png"
+            alt="Loperamide"
+            class="w-20 mx-auto mb-4"
+          />
+          <h3 class="font-semibold text-gray-800">Loperamide (Imodium)</h3>
+          <p class="text-gray-600 text-sm mt-1">Untuk mengatasi diare akut.</p>
+          <div class="mt-auto">
+            <p class="text-blue-600 font-bold mt-4">Rp 20.000</p>
+            <div class="flex items-center justify-center mt-3 space-x-2">
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="decrease"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="quantity-display w-10 text-center">1</span>
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="increase"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <button
+              class="add-to-cart-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full"
+              data-id="4"
+              data-name="Loperamide (Imodium)"
+              data-price="20000"
+            >
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+
+        <!-- Obat 5: Cetirizine -->
+        <div
+          class="bg-white rounded-xl shadow hover:shadow-lg transition p-5 text-center flex flex-col"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2966/2966388.png"
+            alt="Cetirizine"
+            class="w-20 mx-auto mb-4"
+          />
+          <h3 class="font-semibold text-gray-800">Cetirizine</h3>
+          <p class="text-gray-600 text-sm mt-1">
+            Antihistamin untuk alergi, bersin, atau gatal-gatal.
+          </p>
+          <div class="mt-auto">
+            <p class="text-blue-600 font-bold mt-4">Rp 25.000</p>
+            <div class="flex items-center justify-center mt-3 space-x-2">
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="decrease"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="quantity-display w-10 text-center">1</span>
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="increase"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <button
+              class="add-to-cart-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full"
+              data-id="5"
+              data-name="Cetirizine"
+              data-price="25000"
+            >
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+
+        <!-- Obat 6: Salbutamol Inhaler -->
+        <div
+          class="bg-white rounded-xl shadow hover:shadow-lg transition p-5 text-center flex flex-col"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2966/2966388.png"
+            alt="Salbutamol Inhaler"
+            class="w-20 mx-auto mb-4"
+          />
+          <h3 class="font-semibold text-gray-800">Salbutamol Inhaler</h3>
+          <p class="text-gray-600 text-sm mt-1">
+            Membantu meredakan sesak napas akibat asma atau bronkitis.
+          </p>
+          <div class="mt-auto">
+            <p class="text-blue-600 font-bold mt-4">Rp 45.000</p>
+            <div class="flex items-center justify-center mt-3 space-x-2">
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="decrease"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="quantity-display w-10 text-center">1</span>
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="increase"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <button
+              class="add-to-cart-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full"
+              data-id="6"
+              data-name="Salbutamol Inhaler"
+              data-price="45000"
+            >
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+
+        <!-- Obat 7: Povidone Iodine -->
+        <div
+          class="bg-white rounded-xl shadow hover:shadow-lg transition p-5 text-center flex flex-col"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2966/2966388.png"
+            alt="Povidone Iodine"
+            class="w-20 mx-auto mb-4"
+          />
+          <h3 class="font-semibold text-gray-800">Betadine</h3>
+          <p class="text-gray-600 text-sm mt-1">
+            Antiseptik luar untuk membersihkan luka ringan atau goresan.
+          </p>
+          <div class="mt-auto">
+            <p class="text-blue-600 font-bold mt-4">Rp 18.000</p>
+            <div class="flex items-center justify-center mt-3 space-x-2">
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="decrease"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="quantity-display w-10 text-center">1</span>
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="increase"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <button
+              class="add-to-cart-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full"
+              data-id="7"
+              data-name="Betadine"
+              data-price="18000"
+            >
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+
+        <!-- Obat 8: Oralit -->
+        <div
+          class="bg-white rounded-xl shadow hover:shadow-lg transition p-5 text-center flex flex-col"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2966/2966388.png"
+            alt="Oralit"
+            class="w-20 mx-auto mb-4"
+          />
+          <h3 class="font-semibold text-gray-800">Oralit</h3>
+          <p class="text-gray-600 text-sm mt-1">
+            Larutan rehidrasi untuk mencegah dehidrasi akibat diare atau muntah.
+          </p>
+          <div class="mt-auto">
+            <p class="text-blue-600 font-bold mt-4">Rp 5.000</p>
+            <div class="flex items-center justify-center mt-3 space-x-2">
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="decrease"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="quantity-display w-10 text-center">1</span>
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="increase"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <button
+              class="add-to-cart-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full"
+              data-id="8"
+              data-name="Oralit"
+              data-price="5000"
+            >
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+
+        <!-- Obat 9: Vitamin C -->
+        <div
+          class="bg-white rounded-xl shadow hover:shadow-lg transition p-5 text-center flex flex-col"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2966/2966388.png"
+            alt="Vitamin C"
+            class="w-20 mx-auto mb-4"
+          />
+          <h3 class="font-semibold text-gray-800">Vitamin C 500mg</h3>
+          <p class="text-gray-600 text-sm mt-1">
+            Meningkatkan daya tahan tubuh dan membantu penyembuhan.
+          </p>
+          <div class="mt-auto">
+            <p class="text-blue-600 font-bold mt-4">Rp 25.000</p>
+            <div class="flex items-center justify-center mt-3 space-x-2">
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="decrease"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="quantity-display w-10 text-center">1</span>
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="increase"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <button
+              class="add-to-cart-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full"
+              data-id="9"
+              data-name="Vitamin C 500mg"
+              data-price="25000"
+            >
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+
+        <!-- Obat 10: Amoxicillin -->
+        <div
+          class="bg-white rounded-xl shadow hover:shadow-lg transition p-5 text-center flex flex-col border-l-4 border-red-500"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2966/2966388.png"
+            alt="Amoxicillin"
+            class="w-20 mx-auto mb-4"
+          />
+          <h3 class="font-semibold text-gray-800">Amoxicillin 500mg</h3>
+          <p class="text-gray-600 text-sm mt-1">
+            Untuk infeksi bakteri ringan, seperti infeksi tenggorokan atau
+            kulit.
+          </p>
+          <div class="mt-2 mb-2">
+            <span
+              class="bg-red-100 text-red-800 text-xs font-medium px-2 py-1 rounded"
+              >Perlu Resep Dokter</span
+            >
+          </div>
+          <div class="mt-auto">
+            <p class="text-blue-600 font-bold mt-4">Rp 40.000</p>
+            <div class="flex items-center justify-center mt-3 space-x-2">
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="decrease"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="quantity-display w-10 text-center">1</span>
+              <button
+                class="quantity-btn bg-blue-100 text-blue-600 w-8 h-8 rounded-full hover:bg-blue-200 transition"
+                data-action="increase"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <button
+              class="add-to-cart-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full"
+              data-id="10"
+              data-name="Amoxicillin 500mg"
+              data-price="40000"
+            >
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimoni -->
+    <section class="bg-blue-50 py-12">
+      <div class="container mx-auto px-4 sm:px-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center">
+          Apa Kata Pelanggan Kami?
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-white p-6 rounded-lg shadow-sm">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3"
+              >
+                <i class="fas fa-user text-blue-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold">Rina Sari</h4>
+                <div class="flex text-yellow-400">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600">
+              "Pelayanan cepat dan obat sampai dalam waktu kurang dari 1 jam.
+              Sangat membantu saat anak saya demam tengah malam."
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-lg shadow-sm">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3"
+              >
+                <i class="fas fa-user text-blue-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold">Budi Santoso</h4>
+                <div class="flex text-yellow-400">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600">
+              "Apoteker sangat membantu memberikan saran obat yang tepat. Harga
+              juga lebih murah dibanding apotek biasa."
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-lg shadow-sm">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3"
+              >
+                <i class="fas fa-user text-blue-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold">Sari Dewi</h4>
+                <div class="flex text-yellow-400">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600">
+              "Sangat praktis, tidak perlu keluar rumah saat sakit. Obat selalu
+              tersedia dan pengiriman tepat waktu."
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-700 text-white py-8">
+      <div class="container mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <div class="flex items-center mb-4">
+              <img src="favicon.jpeg" alt="PharmaHub" class="h-8 w-auto mr-2" />
+              <span class="text-xl font-bold">PharmaHub</span>
+            </div>
+            <p class="text-sm text-blue-100">
+              Platform pembelian obat online terpercaya dengan layanan cepat &
+              aman.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Tautan Cepat</h3>
+            <ul class="space-y-2 text-blue-100">
+              <li>
+                <a href="index.html" class="hover:text-white transition"
+                  >Beranda</a
+                >
+              </li>
+              <li>
+                <a href="#produk" class="hover:text-white transition">Produk</a>
+              </li>
+              <li>
+                <a href="apotek.html" class="hover:text-white transition"
+                  >Apotek</a
+                >
+              </li>
+              <li>
+                <a href="riwayat.html" class="hover:text-white transition"
+                  >Riwayat</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Bantuan</h3>
+            <ul class="space-y-2 text-blue-100">
+              <li>
+                <a href="#" class="hover:text-white transition">Cara Pesan</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition">Pembayaran</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition">Pengiriman</a>
+              </li>
+              <li><a href="#" class="hover:text-white transition">FAQ</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Kontak</h3>
+            <ul class="space-y-2 text-blue-100">
+              <li class="flex items-center">
+                <i class="fas fa-phone-alt mr-2"></i>
+                <span>+62 21 1234 5678</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-envelope mr-2"></i>
+                <span>info@pharmahub.com</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-map-marker-alt mr-2"></i>
+                <span>Medan, Indonesia</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="border-t border-blue-600 mt-8 pt-6 text-center text-sm text-blue-100"
+        >
+          <p>© 2025 PharmaHub. Semua hak cipta dilindungi.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <div class="flex items-center">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span id="toast-message"
+          >Produk berhasil ditambahkan ke keranjang!</span
+        >
+      </div>
+    </div>
+
+    <!-- Script Toggle Menu Mobile -->
+    <script>
+      // Mobile menu toggle
+      const btn = document.getElementById("menu-btn");
+      const menu = document.getElementById("menu");
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+      });
+
+      // Cart functionality
+      let cart = JSON.parse(localStorage.getItem("pharmahub-cart")) || [];
+
+      // Update cart count display
+      function updateCartCount() {
+        const totalItems = cart.reduce(
+          (total, item) => total + item.quantity,
+          0
+        );
+        const cartCount = document.getElementById("cart-count");
+        const cartCountMobile = document.getElementById("cart-count-mobile");
+
+        if (totalItems > 0) {
+          cartCount.textContent = totalItems;
+          cartCount.classList.remove("hidden");
+          cartCountMobile.textContent = totalItems;
+          cartCountMobile.classList.remove("hidden");
+        } else {
+          cartCount.classList.add("hidden");
+          cartCountMobile.classList.add("hidden");
+        }
+      }
+
+      // Show toast notification
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        const toastMessage = document.getElementById("toast-message");
+
+        toastMessage.textContent = message;
+        toast.classList.add("show");
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 3000);
+      }
+
+      // Quantity buttons functionality
+      document.querySelectorAll(".quantity-btn").forEach((button) => {
+        button.addEventListener("click", function () {
+          const action = this.getAttribute("data-action");
+          const display = this.parentElement.querySelector(".quantity-display");
+          let quantity = parseInt(display.textContent);
+
+          if (action === "increase") {
+            quantity++;
+          } else if (action === "decrease" && quantity > 1) {
+            quantity--;
+          }
+
+          display.textContent = quantity;
+        });
+      });
+
+      // Add to cart functionality
+      document.querySelectorAll(".add-to-cart-btn").forEach((button) => {
+        button.addEventListener("click", function () {
+          const id = this.getAttribute("data-id");
+          const name = this.getAttribute("data-name");
+          const price = parseInt(this.getAttribute("data-price"));
+          const quantity = parseInt(
+            this.parentElement.querySelector(".quantity-display").textContent
+          );
+
+          // Check if item already in cart
+          const existingItem = cart.find((item) => item.id === id);
+
+          if (existingItem) {
+            existingItem.quantity += quantity;
+          } else {
+            cart.push({
+              id,
+              name,
+              price,
+              quantity,
+            });
+          }
+
+          // Save to localStorage
+          localStorage.setItem("pharmahub-cart", JSON.stringify(cart));
+
+          // Update cart count
+          updateCartCount();
+
+          // Show success message
+          showToast(`${name} berhasil ditambahkan ke keranjang!`);
+
+          // Reset quantity to 1
+          this.parentElement.querySelector(".quantity-display").textContent =
+            "1";
+        });
+      });
+
+      // Initialize cart count on page load
+      document.addEventListener("DOMContentLoaded", updateCartCount);
+    </script>
+  </body>
+</html>
